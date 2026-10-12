@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ВАЖНО: разрешение INTERNET здесь сознательно НЕ объявлено.
+  Без строки <uses-permission android:name="android.permission.INTERNET"/>
+  ядро Android физически не даст приложению открыть ни один сетевой сокет.
+  allowBackup="false" — чтобы файл хранилища не улетал в облачный бэкап Google.
+
+  Если проект называется не PassVault, замени "Theme.PassVault" ниже на
+  название темы из своего сгенерированного манифеста (строка android:theme).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="PassVault"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PassVault">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".EntryActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>
