@@ -25,6 +25,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Подписано отладочным ключом намеренно: приложение не публикуется,
+            // а неподписанный релиз на телефон не поставить. Ключ лежит в
+            // ~/.android/debug.keystore; пока он тот же, новая сборка ставится
+            // поверх прежней и хранилище в телефоне остаётся на месте.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
