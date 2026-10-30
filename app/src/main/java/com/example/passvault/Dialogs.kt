@@ -449,7 +449,9 @@ object Dialogs {
                 .setTitle("Резервные копии")
                 .setMessage("Снимков нет")
                 .setPositiveButton("Создать сейчас") { _, _ ->
-                    val s = VaultRepo.snapshot(dir, null)
+                    // Ошибка записи (нет места) не должна ронять приложение: как и
+                    // в остальных местах, показываем сообщение.
+                    val s = runCatching { VaultRepo.snapshot(dir, null) }.getOrNull()
                     toast(activity, if (s != null) "Снимок создан" else "Не удалось создать снимок")
                 }
                 .setNegativeButton("Закрыть", null)
@@ -471,7 +473,7 @@ object Dialogs {
                     .show()
             }
             .setPositiveButton("Снимок сейчас") { _, _ ->
-                val s = VaultRepo.snapshot(dir, null)
+                val s = runCatching { VaultRepo.snapshot(dir, null) }.getOrNull()
                 toast(activity, if (s != null) "Снимок создан" else "Не удалось создать снимок")
             }
             .setNegativeButton("Закрыть", null)

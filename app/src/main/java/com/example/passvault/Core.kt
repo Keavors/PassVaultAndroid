@@ -1356,10 +1356,10 @@ object Portable {
     }
 
     private fun mapHeader(name: String): String? =
-        ALIASES[name.trim().removePrefix("﻿").lowercase()]
+        ALIASES[name.trim().removePrefix("FEFF").lowercase()]
 
     fun parseCsv(raw: String): List<Entry> {
-        val text = raw.removePrefix("﻿")
+        val text = raw.removePrefix("FEFF")
         val firstLine = text.lineSequence().firstOrNull() ?: ""
         val rows = parseCsvRows(text, pickDelimiter(firstLine))
         if (rows.isEmpty()) throw BadImport("Файл пуст")
@@ -1386,7 +1386,7 @@ object Portable {
     }
 
     fun parseJson(raw: String): List<Entry> {
-        val text = raw.removePrefix("﻿").trim()
+        val text = raw.removePrefix("FEFF").trim()
         val items = try {
             if (text.startsWith("[")) JSONArray(text)
             else JSONObject(text).optJSONArray("entries")
@@ -1427,7 +1427,7 @@ object Portable {
             } catch (_: Exception) {
             }
         }
-        val body = (text ?: String(bytes, Charsets.UTF_8)).removePrefix("﻿")
+        val body = (text ?: String(bytes, Charsets.UTF_8)).removePrefix("FEFF")
         val looksJson = nameHint.lowercase().endsWith(".json") ||
                 body.trimStart().startsWith("{") || body.trimStart().startsWith("[")
         return if (looksJson) parseJson(body) else parseCsv(body)
